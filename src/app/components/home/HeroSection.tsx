@@ -84,7 +84,7 @@ const JetigenPage: React.FC = () => {
             href="https://wa.me/996557787700"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:shadow-lg transition"
+            className="inline-flex items-center justify-center gap-2 bg-emerald-600  text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:shadow-lg transition"
           >
             💬 Написать в WhatsApp
           </a>
