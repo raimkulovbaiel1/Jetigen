@@ -22,9 +22,7 @@ const BookingPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь можно добавить логику отправки формы
     alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-    // Очистка формы
     setFormData({
       name: '',
       phone: '',

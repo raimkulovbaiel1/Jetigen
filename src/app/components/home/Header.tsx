@@ -86,7 +86,6 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
             </ul>
           </nav>
 
-          {/* BURGER BUTTON (mobile only) */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="burger"
@@ -95,14 +94,13 @@ const Header: React.FC<HeaderProps> = ({ setCurrentPage }) => {
               background: "none",
               border: "none",
               cursor: "pointer",
-              color: "#000", // ← ЧЁРНЫЙ
+              color: "#000", 
             }}
           >
             ☰
           </button>
         </div>
 
-        {/* MOBILE MENU */}
         {menuOpen && (
           <div
             style={{
