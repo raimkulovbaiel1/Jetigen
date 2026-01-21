@@ -65,13 +65,14 @@ const HeroSection: React.FC = () => {
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
         <div className="bg-[#0295a7] text-white p-9 text-center relative overflow-hidden">
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-0">
             <img
-              src=""
+              src="src/assets/logo/logo.jpg"
               alt="Логотип Жетиген"
-              className="h-20 w-auto drop-shadow-lg"
+              className="w-50 h-47 rounded-full object-cover drop-shadow-lg"
             />
           </div>
+
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
           <h1 className="text-[30px]! sm:text-[15px]! md:text-[19px]! lg:text-[46px]! font-bold mb-2">
             Международный лагерь «Жетиген»
