@@ -46,9 +46,9 @@ const HeroSection: React.FC = () => {
 
     try {
       const response: ParticipantResponse = await createParticipantWithPayment({
-        fullName: childName, // можно подставить имя ребёнка или родителя
+        fullName: childName, 
         phoneNumber,
-        email: "user@example.com", // обязательно для API
+        email: "user@example.com", 
         streamId: selectedStream.id,
         comments: `Ребёнок: ${childName}, Возраст: ${age}`,
       });
@@ -62,9 +62,9 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center ">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="bg-[#0295a7] text-white p-9 text-center relative overflow-hidden">
+        <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
               src="src/assets/logo/logo.jpg"
