@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
+import logo from "../../../assets/img/logo.jpg";
 import {
   type Stream,
   type ParticipantResponse,
@@ -67,7 +68,7 @@ const HeroSection: React.FC = () => {
         <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
-              src="src/assets/img/logo.jpg"
+             src={logo}
               alt="Логотип Жетиген"
               className="w-50 h-30 rounded-full object-cover drop-shadow-lg"
             />
