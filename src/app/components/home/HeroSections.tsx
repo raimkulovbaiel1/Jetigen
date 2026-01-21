@@ -67,9 +67,9 @@ const HeroSection: React.FC = () => {
         <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
-              src="src/assets/logo/logo.jpg"
+              src="src/assets/img/logo.jpg"
               alt="Логотип Жетиген"
-              className="w-50 h-47 rounded-full object-cover drop-shadow-lg"
+              className="w-50 h-30 rounded-full object-cover drop-shadow-lg"
             />
           </div>
 
