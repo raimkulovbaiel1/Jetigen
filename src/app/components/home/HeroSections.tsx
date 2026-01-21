@@ -11,11 +11,9 @@ const HeroSection: React.FC = () => {
   const [selectedStreamId, setSelectedStreamId] = useState<number | "">("");
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
 
-  const [fullName, setFullName] = useState("");
   const [childName, setChildName] = useState("");
-  const [age, setAge] = useState("");
+  const [age,] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [payUrl, setPayUrl] = useState<string | null>(null);
@@ -48,12 +46,13 @@ const HeroSection: React.FC = () => {
 
     try {
       const response: ParticipantResponse = await createParticipantWithPayment({
-        fullName,
+        fullName: childName, // можно подставить имя ребёнка или родителя
         phoneNumber,
-        email,
+        email: "user@example.com", // обязательно для API
         streamId: selectedStream.id,
         comments: `Ребёнок: ${childName}, Возраст: ${age}`,
       });
+
       setPayUrl(response.payUrl);
     } catch (err: any) {
       setError(err.message || "Произошла ошибка");
@@ -65,27 +64,28 @@ const HeroSection: React.FC = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="bg-linear-to-r from-emerald-600 to-emerald-500 text-white p-1 text-center">
-          <div className="mx-auto mb-3 w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-2xl">
-            🏕️
+        <div className="bg-[#0295a7] text-white p-8 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">
+            Международный лагерь «Жетиген»
+          </h1>
+
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-medium mb-4 backdrop-blur-sm">
+            📍 Иссык-Куль
           </div>
-          <h1 className="text-2xl font-bold">Лагерь Jetigen</h1>
-          <p className="text-sm mt-2 opacity-90">Бронирование мест по потокам</p>
+
+          <p className="text-base md:text-lg leading-relaxed opacity-95 max-w-xl mx-auto font-light">
+            Пространство, где дети <span className="font-semibold text-yellow-300">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
+          </p>
+
+          <div className="mt-6 flex items-center justify-center gap-2 text-sm font-medium uppercase tracking-wider opacity-80">
+            <span className="h-px w-8 bg-white/50"></span>
+            Бронирование мест
+            <span className="h-px w-8 bg-white/50"></span>
+          </div>
         </div>
-
-        <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="label">ФИО родителя *</label>
-            <input
-              type="text"
-              className="input"
-              placeholder="Иванов Иван Иванович"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-            />
-          </div>
-
+        <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 gap-4">
           <div>
             <label className="label">Имя ребёнка *</label>
             <input
@@ -97,25 +97,26 @@ const HeroSection: React.FC = () => {
               required
             />
           </div>
-
           <div>
-            <label className="label">Возраст ребёнка *</label>
+            <label className="label">Телефон *</label>
             <input
-              type="number"
+              type="tel"
               className="input"
-              placeholder="Например: 7"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
+              placeholder="+996 (555) 123-456"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               required
             />
           </div>
-
           <div>
             <label className="label">Выбор потока *</label>
             <select
               className="input"
               value={selectedStreamId}
-              onChange={(e) => setSelectedStreamId(Number(e.target.value))}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSelectedStreamId(value === "" ? "" : Number(value));
+              }}
               required
             >
               <option value="">Выберите поток</option>
@@ -127,38 +128,15 @@ const HeroSection: React.FC = () => {
             </select>
           </div>
 
-          <div className="md:col-span-1">
-            <label className="label">Телефон *</label>
-            <input
-              type="tel"
-              className="input"
-              placeholder="+996 (555) 123-456"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="md:col-span-1">
-            <label className="label">Email *</label>
-            <input
-              type="email"
-              className="input"
-              placeholder="example@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
           <button
             type="submit"
             disabled={loading || !selectedStream || selectedStream.availableSpots <= 0}
-            className="md:col-span-2 w-full bg-linear-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-semibold py-3 rounded-2xl shadow-md hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-[#0295a7] text-white font-semibold py-3 rounded-2xl shadow-md transition disabled:cursor-not-allowed"
           >
             {loading ? "Создаём участника..." : "✅ Забронировать место"}
           </button>
         </form>
+
 
         {payUrl && (
           <div className="p-6 text-center">
@@ -176,6 +154,8 @@ const HeroSection: React.FC = () => {
 
         {error && <p className="text-red-600 text-center mt-4">{error}</p>}
         <div className="border-t bg-gray-50 p-6 text-center space-y-4">
+
+
           <a
             href="https://wa.me/996557787700"
             target="_blank"
@@ -189,7 +169,7 @@ const HeroSection: React.FC = () => {
             href="https://wa.me/996557787700"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-emerald-600  text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:shadow-lg transition"
+            className="inline-flex items-center justify-center gap-2 bg-[#0295a7]  text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:shadow-lg transition"
           >
             💬 Написать в WhatsApp
           </a>
