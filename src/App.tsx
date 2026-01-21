@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from './app/components/home/HomePage';
 import { BookingPage } from './app/Pages/BookingPage';
-import { PlacesPage } from './app/Pages/PlacesPage';
-import PaymentSuccess from "./app/components/home/PaymentSuccess";
+import { PlacesPage } from './app/Pages/PlacesPage'; 
+import PaymentSuccess from "./app/Pages/PaymentSuccess";
 
 function App() {
   const handleNavigate = (page: "home" | "places" | "booking") => {

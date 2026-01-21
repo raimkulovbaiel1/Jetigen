@@ -64,13 +64,18 @@ const HeroSection: React.FC = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="bg-[#0295a7] text-white p-8 text-center relative overflow-hidden">
+        <div className="bg-[#0295a7] text-white p-9 text-center relative overflow-hidden">
+          <div className="flex justify-center mb-6">
+            <img
+              src=""
+              alt="Логотип Жетиген"
+              className="h-20 w-auto drop-shadow-lg"
+            />
+          </div>
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
-
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">
+          <h1 className="text-[30px]! sm:text-[15px]! md:text-[19px]! lg:text-[46px]! font-bold mb-2">
             Международный лагерь «Жетиген»
           </h1>
-
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 rounded-full text-xs font-medium mb-4 backdrop-blur-sm">
             📍 Иссык-Куль
           </div>
@@ -78,12 +83,6 @@ const HeroSection: React.FC = () => {
           <p className="text-base md:text-lg leading-relaxed opacity-95 max-w-xl mx-auto font-light">
             Пространство, где дети <span className="font-semibold text-yellow-300">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
           </p>
-
-          <div className="mt-6 flex items-center justify-center gap-2 text-sm font-medium uppercase tracking-wider opacity-80">
-            <span className="h-px w-8 bg-white/50"></span>
-            Бронирование мест
-            <span className="h-px w-8 bg-white/50"></span>
-          </div>
         </div>
         <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 gap-4">
           <div>
