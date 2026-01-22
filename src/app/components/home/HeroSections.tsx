@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import logo from "../../../assets/img/logo.jpg";
 import {
   type Stream,
@@ -9,66 +9,71 @@ import {
 
 const HeroSection: React.FC = () => {
   const [streams, setStreams] = useState<Stream[]>([]);
-  const [selectedStreamId, setSelectedStreamId] = useState<number | "">("");
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const [childName, setChildName] = useState("");
-  const [age,] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [showAmount, setShowAmount] = useState(false);
 
+  const [formErrors, setFormErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [payUrl, setPayUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getStreams()
-      .then(setStreams)
-      .catch((err) => setError(err.message));
+    getStreams().then(setStreams).catch(err => setError(err.message));
   }, []);
 
-  useEffect(() => {
-    if (selectedStreamId === "") return setSelectedStream(null);
-    const stream = streams.find((s) => s.id === selectedStreamId) || null;
+  const handleSelectStream = (stream: Stream) => {
     setSelectedStream(stream);
-  }, [selectedStreamId, streams]);
+    setDropdownOpen(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedStream) return;
 
-    if (selectedStream.availableSpots <= 0) {
-      setError("В этом потоке нет свободных мест");
+    const errors: string[] = [];
+    if (!childName) errors.push("Введите имя ребёнка");
+    if (!phoneNumber) errors.push("Введите телефон родителя");
+    if (!selectedStream) errors.push("Выберите поток");
+
+    if (errors.length) {
+      setFormErrors(errors);
       return;
     }
 
-    setLoading(true);
-    setError(null);
-    setPayUrl(null);
-
     try {
-      const response: ParticipantResponse = await createParticipantWithPayment({
-        fullName: childName, 
-        phoneNumber,
-        email: "user@example.com", 
-        streamId: selectedStream.id,
-        comments: `Ребёнок: ${childName}, Возраст: ${age}`,
-      });
+      setLoading(true);
+      setError(null);
+      setFormErrors([]);
+
+      const response: ParticipantResponse =
+        await createParticipantWithPayment({
+          fullName: childName,
+          phoneNumber,
+          email: "user@example.com",
+          streamId: selectedStream!.id,
+          comments: `Ребёнок: ${childName}`,
+         // amount: Number(amount), // ← добавляем сумму платежа в запрос к API ( отправлять на сервер что бы пользователь оплатил именно эту сумму) 
+        });
 
       setPayUrl(response.payUrl);
     } catch (err: any) {
-      setError(err.message || "Произошла ошибка");
+      setError(err.message || "Ошибка");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center ">
+    <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
         <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
-             src={logo}
+              src={logo}
               alt="Логотип Жетиген"
               className="w-50 h-30 rounded-full object-cover drop-shadow-lg"
             />
@@ -86,106 +91,128 @@ const HeroSection: React.FC = () => {
             Пространство, где дети <span className="font-semibold text-yellow-300">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 grid grid-cols-1 gap-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
             <label className="label">Имя ребёнка *</label>
             <input
-              type="text"
               className="input"
-              placeholder="Имя ребёнка"
               value={childName}
-              onChange={(e) => setChildName(e.target.value)}
-              required
+              onChange={e => setChildName(e.target.value)}
+              placeholder="Имя ребёнка"
             />
-          </div>
-          <div>
-            <label className="label">Телефон *</label>
-            <input
-              type="tel"
-              className="input"
-              placeholder="+996 (555) 123-456"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="label">Выбор потока *</label>
-            <select
-              className="input"
-              value={selectedStreamId}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSelectedStreamId(value === "" ? "" : Number(value));
-              }}
-              required
-            >
-              <option value="">Выберите поток</option>
-              {streams.map((s) => (
-                <option key={s.id} value={s.id} disabled={s.availableSpots <= 0}>
-                  {s.name} ({s.startDate} — {s.endDate}) | Мест: {s.availableSpots}
-                </option>
-              ))}
-            </select>
           </div>
 
+          <div>
+            <label className="label">Телефон родителя *</label>
+            <input
+              className="input"
+              value={phoneNumber}
+              onChange={e => setPhoneNumber(e.target.value)}
+              placeholder="+996 (555) 123-456"
+            />
+          </div>
+
+          <div className="relative">
+            <label className="label">Выбор потока *</label>
+            <button
+              type="button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="input flex justify-between items-center"
+            >
+              {selectedStream
+                ? `${selectedStream.name} (${selectedStream.startDate} — ${selectedStream.endDate})`
+                : "Выберите поток"}
+              <span>▾</span>
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute z-10 w-full bg-white rounded-xl shadow-md mt-1 max-h-55 overflow-y-auto">
+                {streams.map(s => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    disabled={s.availableSpots <= 0}
+                    onClick={() => handleSelectStream(s)}
+                    className="w-full px-4 py-2 border border-gray-200 text-left hover:bg-gray-100 disabled:opacity-40"
+                  >
+                    {s.name} | Мест: {s.availableSpots}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {formErrors.length > 0 && (
+            <ul className="text-red-600 text-sm space-y-1">
+              {formErrors.map((e, i) => (
+                <li key={i}>• {e}</li>
+              ))}
+            </ul>
+          )}
           <button
             type="submit"
-            disabled={loading || !selectedStream || selectedStream.availableSpots <= 0}
-            className="w-full bg-[#0295a7] text-white font-semibold py-3 rounded-2xl shadow-md transition disabled:cursor-not-allowed"
+            disabled={loading}
+            className="w-full bg-[#0295a7] text-white py-3 rounded-2xl font-semibold"
           >
-            {loading ? "Создаём участника..." : "✅ Забронировать место"}
+            {loading ? "Обработка..." : "✅ Забронировать место"}
           </button>
         </form>
 
-
-        {payUrl && (
+        {payUrl && !showAmount && (
           <div className="p-6 text-center">
-            <p className="text-green-600 font-semibold">Участник создан! Перейдите для оплаты:</p>
-            <a
-              href={payUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block mt-2 px-6 py-3 bg-emerald-600 text-white rounded-xl shadow-md hover:bg-emerald-700 transition"
+            <button
+              onClick={() => setShowAmount(true)}
+              className="bg-emerald-600 text-white px-6 py-3 rounded-xl"
             >
-              Оплатить
-            </a>
+              Перейти к оплате
+            </button>
           </div>
         )}
 
-        {error && <p className="text-red-600 text-center mt-4">{error}</p>}
-        <div className="border-t bg-gray-50 p-6 text-center space-y-4">
+        {showAmount && (
+          <div className="p-6 space-y-4 text-center">
+            <label className="label">Введите сумму *</label>
+            <input
+              type="number"
+              className="input"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+              placeholder="Введите сумму"
+            />
 
+            <button
+              onClick={() => {
+                if (!amount || Number(amount) <= 0) {
+                  setError("Введите корректную сумму");
+                  return;
+                }
+                window.open(payUrl!, "_blank");
+              }}
+              className="w-full bg-[#0295a7] text-white py-3 rounded-2xl"
+            >
+              Оплатить {amount} сом
+            </button>
+          </div>
+        )}
 
+        {error && <p className="text-red-600 text-center pb-4">{error}</p>}
+
+        <div className="p-6 text-center space-y-4 border-t bg-gray-50">
           <a
             href="https://wa.me/996557787700"
             target="_blank"
             rel="noopener noreferrer"
-            className="block text-sm text-gray-600 hover:text-emerald-600 transition"
-          >
-            Есть вопросы? Свяжитесь с нами
-          </a>
-
-          <a
-            href="https://wa.me/996557787700"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-[#0295a7]  text-white px-6 py-3 rounded-2xl font-medium shadow-md hover:shadow-lg transition"
+            className="inline-flex gap-2 border-2 border-[#0295a7] text-[#0295a7]
+                       px-6 py-3 rounded-2xl hover:bg-[#0295a7] hover:text-white transition"
           >
             💬 Написать в WhatsApp
           </a>
 
           <p className="text-sm text-gray-500">
-            📞{" "}
-            <a
-              href="tel:+996557787700"
-              className="hover:underline text-gray-500"
-            >
-              +996 (557) 78-77-00
-            </a>
+            📞 <a href="tel:+996557787700">+996 (557) 78-77-00</a>
           </p>
-
         </div>
+
       </div>
     </div>
   );
