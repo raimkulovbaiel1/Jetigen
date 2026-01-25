@@ -27,12 +27,15 @@ export const createParticipantWithPayment = async (data: {
   email: string;
   streamId: number;
   comments?: string;
+  amount: string; 
 }): Promise<ParticipantResponse> => {
   const formData = new URLSearchParams();
   formData.append("fullName", data.fullName);
   formData.append("phoneNumber", data.phoneNumber);
   formData.append("email", data.email);
   formData.append("streamId", data.streamId.toString());
+  formData.append("amount", data.amount); 
+
   if (data.comments) formData.append("comments", data.comments);
 
   const res = await fetch(

@@ -19,7 +19,6 @@ const HeroSection: React.FC = () => {
 
   const [formErrors, setFormErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [payUrl, setPayUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -31,12 +30,11 @@ const HeroSection: React.FC = () => {
     setDropdownOpen(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleGoToPayment = () => {
     const errors: string[] = [];
-    if (!childName) errors.push("Введите имя ребёнка");
-    if (!phoneNumber) errors.push("Введите телефон родителя");
+
+    if (!childName.trim()) errors.push("Введите имя ребёнка");
+    if (!phoneNumber.trim()) errors.push("Введите телефон родителя");
     if (!selectedStream) errors.push("Выберите поток");
 
     if (errors.length) {
@@ -44,22 +42,29 @@ const HeroSection: React.FC = () => {
       return;
     }
 
+    setFormErrors([]);
+    setShowAmount(true);
+  };
+
+
+  const handleCreatePayment = async () => {
+    const numericAmount = Number(amount);
+
     try {
       setLoading(true);
       setError(null);
-      setFormErrors([]);
 
       const response: ParticipantResponse =
         await createParticipantWithPayment({
-          fullName: childName,
-          phoneNumber,
+          fullName: childName.trim(),
+          phoneNumber: phoneNumber.trim(),
           email: "user@example.com",
           streamId: selectedStream!.id,
           comments: `Ребёнок: ${childName}`,
-         // amount: Number(amount), // ← добавляем сумму платежа в запрос к API ( отправлять на сервер что бы пользователь оплатил именно эту сумму) 
+          amount: numericAmount.toString(),
         });
 
-      setPayUrl(response.payUrl);
+      window.open(response.payUrl, "_blank");
     } catch (err: any) {
       setError(err.message || "Ошибка");
     } finally {
@@ -70,6 +75,7 @@ const HeroSection: React.FC = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
+
         <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
@@ -91,7 +97,9 @@ const HeroSection: React.FC = () => {
             Пространство, где дети <span className="font-semibold text-yellow-300">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+
+        <div className="p-6 space-y-4">
+
           <div>
             <label className="label">Имя ребёнка *</label>
             <input
@@ -101,7 +109,6 @@ const HeroSection: React.FC = () => {
               placeholder="Имя ребёнка"
             />
           </div>
-
           <div>
             <label className="label">Телефон родителя *</label>
             <input
@@ -143,76 +150,64 @@ const HeroSection: React.FC = () => {
           </div>
 
           {formErrors.length > 0 && (
-            <ul className="text-red-600 text-sm space-y-1">
+            <ul className="text-red-600 text-sm">
               {formErrors.map((e, i) => (
                 <li key={i}>• {e}</li>
               ))}
             </ul>
           )}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-[#0295a7] text-white py-3 rounded-2xl font-semibold"
-          >
-            {loading ? "Обработка..." : "✅ Забронировать место"}
-          </button>
-        </form>
 
-        {payUrl && !showAmount && (
-          <div className="p-6 text-center">
+          {!showAmount && (
             <button
-              onClick={() => setShowAmount(true)}
-              className="bg-emerald-600 text-white px-6 py-3 rounded-xl"
+              type="button"
+              onClick={handleGoToPayment}
+              disabled={loading}
+              className="w-full bg-[#0295a7] text-white py-3 rounded-2xl font-semibold"
             >
-              Перейти к оплате
+              {loading ? "Обработка..." : "✅ Забронировать место"}
             </button>
-          </div>
-        )}
+          )}
 
-        {showAmount && (
-          <div className="p-6 space-y-4 text-center">
-            <label className="label">Введите сумму *</label>
-            <input
-              type="number"
-              className="input"
-              value={amount}
-              onChange={e => setAmount(e.target.value)}
-              placeholder="Введите сумму"
-            />
+          {showAmount && (
+            <>
+              <div>
+                <label className="label">Введите сумму *</label>
+                <input
+                  type="number"
+                  className="input"
+                  value={amount}
+                  onChange={e => setAmount(e.target.value.replace(/\D/g, ""))}
+                  placeholder="Введите сумму"
+                />
+              </div>
 
-            <button
-              onClick={() => {
-                if (!amount || Number(amount) <= 0) {
-                  setError("Введите корректную сумму");
-                  return;
-                }
-                window.open(payUrl!, "_blank");
-              }}
-              className="w-full bg-[#0295a7] text-white py-3 rounded-2xl"
-            >
-              Оплатить {amount} сом
-            </button>
-          </div>
-        )}
+              <button
+                onClick={handleCreatePayment}
+                disabled={loading}
+                className="w-full bg-emerald-600 text-white py-3 rounded-2xl"
+              >
+                {loading ? "Создание платежа..." : `Оплатить ${amount} сом`}
+              </button>
+            </>
+          )}
 
-        {error && <p className="text-red-600 text-center pb-4">{error}</p>}
-
-        <div className="p-6 text-center space-y-4 border-t bg-gray-50">
-          <a
-            href="https://wa.me/996557787700"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex gap-2 border-2 border-[#0295a7] text-[#0295a7]
+          {error && <p className="text-red-600 text-center">{error}</p>}
+          <div className="p-6 text-center space-y-4 border-t bg-gray-50">
+            <a
+              href="https://wa.me/996557787700"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex gap-2 border-2 border-[#0295a7] text-[#0295a7]
                        px-6 py-3 rounded-2xl hover:bg-[#0295a7] hover:text-white transition"
-          >
-            💬 Написать в WhatsApp
-          </a>
+            >
+              💬 Написать в WhatsApp
+            </a>
 
-          <p className="text-sm text-gray-500">
-            📞 <a href="tel:+996557787700">+996 (557) 78-77-00</a>
-          </p>
+            <p className="text-sm text-gray-500">
+              📞 <a href="tel:+996557787700">+996 (557) 78-77-00</a>
+            </p>
+          </div>
         </div>
-
       </div>
     </div>
   );
