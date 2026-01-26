@@ -104,7 +104,7 @@ const PaymentStatus: React.FC = () => {
               ❌ Оплата не прошла
             </h1>
             <button
-              onClick={() => navigate("/booking")}
+              onClick={() => window.location.reload()}
               className="mt-4 bg-gray-700 text-white px-6 py-2 rounded-xl"
             >
               Попробовать снова
