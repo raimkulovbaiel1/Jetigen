@@ -29,7 +29,7 @@ const PaymentStatus: React.FC = () => {
           setLoading(false);
 
           if (data.status === "success") {
-            setTimeout(() => navigate(`/payment-status?transactionId=${transactionId}`), 3000);
+            setTimeout(() => navigate(`/`), 3000);
           }
         }
       } catch (e) {
