@@ -10,7 +10,7 @@ export async function getTransactionStatus(
   transactionId: number,
 ): Promise<TransactionResponse> {
   const res = await fetch(
-    `https://jetigen.operator.kg/api/v1/payment/webhook/${transactionId}`,
+    `https://jetigen.operator.kg/api/v1/payments/${transactionId}`,
     {
       method: "GET",
       headers: {
