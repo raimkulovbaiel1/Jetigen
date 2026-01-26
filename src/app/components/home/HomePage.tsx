@@ -5,7 +5,7 @@ interface HomePageProps {
   onNavigate: (page: 'home' | 'places' | 'booking') => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ }) => {
+const HomePage: React.FC<HomePageProps> = () => {
   return (
     <main style={{ minHeight: "calc(100vh - 70px)" }}>
       <div
