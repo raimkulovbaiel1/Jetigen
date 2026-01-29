@@ -103,9 +103,12 @@ const HeroSection: React.FC = () => {
           <div>
             <label className="label">Фамилия и Имя ребёнка *</label>
             <input
-              className="input rounded-lg "
+              className="input rounded-lg"
               value={childName}
-              onChange={e => setChildName(e.target.value)}
+              onChange={(e) => {
+                const onlyLetters = e.target.value.replace(/[^\p{L}\s]/gu, "");
+                setChildName(onlyLetters);
+              }}
               placeholder="Фамилия и Имя ребёнка"
             />
           </div>
@@ -114,20 +117,23 @@ const HeroSection: React.FC = () => {
           <div>
             <label className="label">Телефон родителя *</label>
             <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full
-               focus-within:ring-2 focus-within:ring-emerald-500 transition-colors">
+                  focus-within:ring-2 focus-within:ring-emerald-500 transition-colors">
               <div className="px-3 py-2 bg-gray-100 text-gray-700 font-semibold">
                 +996
               </div>
               <input
                 type="tel"
-                className="flex-1 px-3 py-2 outline-none focus:outline-none bg-transparent text-inherit  "
+                maxLength={9}
+                className="flex-1 px-3 py-2 outline-none focus:outline-none bg-transparent text-inherit"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="xxx xxx xxx"
+                onChange={(e) => {
+                  const onlyNumbers = e.target.value.replace(/\D/g, "");
+                  setPhoneNumber(onlyNumbers);
+                }}
+                placeholder="XXX XXX XXX"
               />
             </div>
           </div>
-
 
           <div className="relative">
             <label className="label">Выбор потока *</label>
