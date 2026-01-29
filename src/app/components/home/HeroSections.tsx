@@ -33,7 +33,7 @@ const HeroSection: React.FC = () => {
   const handleGoToPayment = () => {
     const errors: string[] = [];
 
-    if (!childName.trim()) errors.push("Введите имя ребёнка");
+    if (!childName.trim()) errors.push("Введите Фамилия и имя ребёнка");
     if (!phoneNumber.trim()) errors.push("Введите телефон родителя");
     if (!selectedStream) errors.push("Выберите поток");
 
@@ -76,7 +76,7 @@ const HeroSection: React.FC = () => {
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
 
-        <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
+        <div className="bg-[#ff7a03] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
               src={logo}
@@ -94,19 +94,19 @@ const HeroSection: React.FC = () => {
           </div>
 
           <p className="text-base md:text-lg leading-relaxed opacity-95 max-w-xl mx-auto font-light">
-            Пространство, где дети <span className="font-semibold text-yellow-300">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
+            Пространство, где дети <span className="font-semibold ">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
           </p>
         </div>
 
         <div className="p-6 space-y-4">
 
           <div>
-            <label className="label">Имя ребёнка *</label>
+            <label className="label">Фамилия и имя ребёнка *</label>
             <input
               className="input"
               value={childName}
               onChange={e => setChildName(e.target.value)}
-              placeholder="Имя ребёнка"
+              placeholder="Фамилия и имя ребёнка"
             />
           </div>
           <div>
@@ -142,7 +142,7 @@ const HeroSection: React.FC = () => {
                     onClick={() => handleSelectStream(s)}
                     className="w-full px-4 py-2 border border-gray-200 text-left hover:bg-gray-100 disabled:opacity-40"
                   >
-                    {s.name} | Мест: {s.availableSpots}
+                    {s.name} 
                   </button>
                 ))}
               </div>
@@ -204,7 +204,7 @@ const HeroSection: React.FC = () => {
             </a>
 
             <p className="text-sm text-gray-500">
-              📞 <a href="tel:+996557787700">+996 (557) 78-77-00</a>
+              📞 <a href="tel:+996557787700">+996 (703) 78-77-00</a>
             </p>
           </div>
         </div>
