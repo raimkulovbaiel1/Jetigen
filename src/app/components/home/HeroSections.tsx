@@ -113,13 +113,14 @@ const HeroSection: React.FC = () => {
 
           <div>
             <label className="label">Телефон родителя *</label>
-            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full">
+            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full
+               focus-within:ring-2 focus-within:ring-emerald-500 transition-colors">
               <div className="px-3 py-2 bg-gray-100 text-gray-700 font-semibold">
                 +996
               </div>
               <input
                 type="tel"
-                className="flex-1 px-3 py-2 outline-none"
+                className="flex-1 px-3 py-2 outline-none focus:outline-none bg-transparent text-inherit  "
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="xxx xxx xxx"
