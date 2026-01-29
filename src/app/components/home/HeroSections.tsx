@@ -76,7 +76,7 @@ const HeroSection: React.FC = () => {
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
 
-        <div className="bg-[#ff7a03] text-white p-6 text-center relative overflow-hidden">
+        <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
             <img
               src={logo}
@@ -94,30 +94,39 @@ const HeroSection: React.FC = () => {
           </div>
 
           <p className="text-base md:text-lg leading-relaxed opacity-95 max-w-xl mx-auto font-light">
-            Пространство, где дети <span className="font-semibold ">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
+            Пространство, где дети <span className="font-semibold text-[#ff7a03] ">9–16 лет</span> мечтают, созидают и раскрывают свой потенциал через безопасный и вдохновляющий отдых  с авторской программой .
           </p>
         </div>
 
         <div className="p-6 space-y-4">
 
           <div>
-            <label className="label">Фамилия и имя ребёнка *</label>
+            <label className="label">Фамилия и Имя ребёнка *</label>
             <input
-              className="input"
+              className="input rounded-lg "
               value={childName}
               onChange={e => setChildName(e.target.value)}
-              placeholder="Фамилия и имя ребёнка"
+              placeholder="Фамилия и Имя ребёнка"
             />
           </div>
+
+
           <div>
             <label className="label">Телефон родителя *</label>
-            <input
-              className="input"
-              value={phoneNumber}
-              onChange={e => setPhoneNumber(e.target.value)}
-              placeholder="+996 (555) 123-456"
-            />
+            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-full">
+              <div className="px-3 py-2 bg-gray-100 text-gray-700 font-semibold">
+                +996
+              </div>
+              <input
+                type="tel"
+                className="flex-1 px-3 py-2 outline-none"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="xxx xxx xxx"
+              />
+            </div>
           </div>
+
 
           <div className="relative">
             <label className="label">Выбор потока *</label>
@@ -142,7 +151,7 @@ const HeroSection: React.FC = () => {
                     onClick={() => handleSelectStream(s)}
                     className="w-full px-4 py-2 border border-gray-200 text-left hover:bg-gray-100 disabled:opacity-40"
                   >
-                    {s.name} 
+                    {s.name}
                   </button>
                 ))}
               </div>
