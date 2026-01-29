@@ -194,7 +194,7 @@ const HeroSection: React.FC = () => {
           {error && <p className="text-red-600 text-center">{error}</p>}
           <div className="p-6 text-center space-y-4 border-t bg-gray-50">
             <a
-              href="https://wa.me/996557787700"
+              href="https://wa.me/996703787700"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex gap-2 border-2 border-[#0295a7] text-[#0295a7]
@@ -204,7 +204,7 @@ const HeroSection: React.FC = () => {
             </a>
 
             <p className="text-sm text-gray-500">
-              📞 <a href="tel:+996557787700">+996 (703) 78-77-00</a>
+              📞 <a href="tel:+996703787700">+996 (703) 78-77-00</a>
             </p>
           </div>
         </div>
