@@ -57,7 +57,7 @@ const HeroSection: React.FC = () => {
       const response: ParticipantResponse =
         await createParticipantWithPayment({
           fullName: childName.trim(),
-          phoneNumber: phoneNumber.trim(),
+          phoneNumber: "+996" + phoneNumber.trim(),
           email: "user@example.com",
           streamId: selectedStream!.id,
           comments: `Ребёнок: ${childName}`,
