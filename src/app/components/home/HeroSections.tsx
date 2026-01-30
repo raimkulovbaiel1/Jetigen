@@ -106,7 +106,7 @@ const HeroSection: React.FC = () => {
               className="input rounded-lg"
               value={childName}
               onChange={(e) => {
-                const onlyLetters = e.target.value.replace(/[^\p{L}\s]/gu, "");
+                const onlyLetters = e.target.value.replace(/[^\p{L}\s,.@#!?|%-+=]/gu, "");
                 setChildName(onlyLetters);
               }}
               placeholder="Фамилия и Имя ребёнка"
