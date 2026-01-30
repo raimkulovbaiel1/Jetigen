@@ -49,7 +49,7 @@ const HeroSection: React.FC = () => {
 
   const handleCreatePayment = async () => {
     const numericAmount = Number(amount);
-
+    const payWindow = window.open("", "_blank");
     try {
       setLoading(true);
       setError(null);
@@ -63,8 +63,9 @@ const HeroSection: React.FC = () => {
           comments: `Ребёнок: ${childName}`,
           amount: numericAmount.toString(),
         });
-
-      window.open(response.payUrl, "_blank");
+        if (payWindow) {  
+      payWindow.location.href = response.payUrl;
+      }
     } catch (err: any) {
       setError(err.message || "Ошибка");
     } finally {
@@ -106,7 +107,7 @@ const HeroSection: React.FC = () => {
               className="input rounded-lg"
               value={childName}
               onChange={(e) => {
-                const onlyLetters = e.target.value.replace(/[^\p{L}\s,.@#!?|%-+=]/gu, "");
+                const onlyLetters = e.target.value.replace(/[^\p{L}\s,.@#!?:;"|%-+=]/gu, "");
                 setChildName(onlyLetters);
               }}
               placeholder="Фамилия и Имя ребёнка"
