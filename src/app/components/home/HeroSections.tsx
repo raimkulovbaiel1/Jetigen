@@ -33,7 +33,7 @@ const HeroSection: React.FC = () => {
   const handleGoToPayment = () => {
     const errors: string[] = [];
 
-    if (!childName.trim()) errors.push("Введите Фамилия и имя ребёнка");
+    if (!childName.trim()) errors.push("Введите ФИО ребёнка");
     if (!phoneNumber.trim()) errors.push("Введите телефон родителя");
     if (!selectedStream) errors.push("Выберите поток");
 
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
         <div className="p-6 space-y-4">
 
           <div>
-            <label className="label">Фамилия и Имя ребёнка *</label>
+            <label className="label">ФИО ребёнка *</label>
             <input
               className="input rounded-lg"
               value={childName}
@@ -110,7 +110,7 @@ const HeroSection: React.FC = () => {
                 const onlyLetters = e.target.value.replace(/[^\p{L}\s,.@#!?:;"|%-+=]/gu, "");
                 setChildName(onlyLetters);
               }}
-              placeholder="Фамилия и Имя ребёнка"
+              placeholder="ФИО ребёнка"
             />
           </div>
 
