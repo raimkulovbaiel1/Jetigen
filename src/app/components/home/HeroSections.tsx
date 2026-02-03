@@ -75,7 +75,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl  ">
+      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden ">
 
         <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
