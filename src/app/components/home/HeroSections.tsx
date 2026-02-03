@@ -175,20 +175,24 @@ const HeroSection: React.FC = () => {
           )}
 
           {!showAmount && (
-       <button
+         <button
   type="button"
   onClick={handleGoToPayment}
   disabled={loading}
   className="
     w-full
     min-h-12
+    flex
+    items-center
+    justify-center
     bg-[#0295a7]
     text-white
     py-3
     rounded-2xl
     font-semibold
+    text-base
     disabled:bg-gray-300
-    disabled:text-gray-500
+    disabled:text-gray-600
     disabled:opacity-100
   "
 >
