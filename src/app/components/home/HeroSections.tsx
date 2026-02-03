@@ -180,6 +180,7 @@ const HeroSection: React.FC = () => {
               onClick={handleGoToPayment}
               disabled={loading}
               className="w-full bg-[#0295a7] text-white py-3 rounded-2xl font-semibold"
+              style={{ backgroundColor: "#0295a7" }}
             >
               {loading ? "Обработка..." : "✅ Забронировать место"}
             </button>
@@ -202,6 +203,7 @@ const HeroSection: React.FC = () => {
                 onClick={handleCreatePayment}
                 disabled={loading}
                 className="w-full bg-emerald-600 text-white py-3 rounded-2xl"
+                style={{ backgroundColor: "#059669" }}
               >
                 {loading ? "Создание платежа..." : `Оплатить ${amount} сом`}
               </button>
