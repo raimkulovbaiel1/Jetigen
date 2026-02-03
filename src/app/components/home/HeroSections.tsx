@@ -175,14 +175,26 @@ const HeroSection: React.FC = () => {
           )}
 
           {!showAmount && (
-            <button
-              type="button"
-              onClick={handleGoToPayment}
-              disabled={loading}
-              className="w-full bg-[#0295a7] text-white py-3 rounded-2xl font-semibold"
-            >
-              {loading ? "Обработка..." : "✅ Забронировать место"}
-            </button>
+       <button
+  type="button"
+  onClick={handleGoToPayment}
+  disabled={loading}
+  className="
+    w-full
+    min-h-12
+    bg-[#0295a7]
+    text-white
+    py-3
+    rounded-2xl
+    font-semibold
+    disabled:bg-gray-300
+    disabled:text-gray-500
+    disabled:opacity-100
+  "
+>
+  {loading ? "Обработка..." : "✅ Забронировать место"}
+</button>
+
           )}
 
           {showAmount && (
