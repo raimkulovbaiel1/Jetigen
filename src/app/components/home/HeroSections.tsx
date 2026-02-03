@@ -75,7 +75,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-emerald-50 to-gray-100 flex justify-center">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl ">
 
         <div className="bg-[#0295a7] text-white p-6 text-center relative overflow-hidden">
           <div className="flex justify-center mb-0">
@@ -175,14 +175,31 @@ const HeroSection: React.FC = () => {
           )}
 
           {!showAmount && (
-            <button
-              type="button"
-              onClick={handleGoToPayment}
-              disabled={loading}
-              className="w-full bg-[#0295a7] text-white py-3 rounded-2xl font-semibold"
-            >
-              {loading ? "Обработка..." : "✅ Забронировать место"}
-            </button>
+        <button
+  type="button"
+  onClick={handleGoToPayment}
+  disabled={loading}
+  className="
+    w-full
+    min-h-13
+    flex items-center justify-center
+    bg-[#0295a7]
+    rounded-2xl
+    font-semibold
+    text-white
+    text-[16px]
+    leading-none
+    relative
+    z-10
+    disabled:bg-gray-300
+    disabled:text-gray-600
+  "
+>
+  <span className="text-white">
+    {loading ? "Обработка..." : "✅ Забронировать место"}
+  </span>
+</button>
+
           )}
 
           {showAmount && (
